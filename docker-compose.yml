@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  log4netreader.api:
+    image: log4netreader.api
+    build:
+      context: ./Log4NetReader.Api
+      dockerfile: Dockerfile
