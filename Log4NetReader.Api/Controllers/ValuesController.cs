@@ -1,19 +1,37 @@
-﻿using System;
+﻿using Log4NetReader.Api.Data;
+using Log4NetReader.Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Log4NetReader.Api.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly Log4NetReaderContext _context;
+        public ValuesController(Log4NetReaderContext context)
+        {
+            _context = context;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var count = 0;
+
+            foreach (string tableName in new[] { "CompensationModule_Log", "DataFeeds_Log" })
+            {
+                var result = _context.LogRecords.FromSql<LogRecord>($"Select top 10 * from {tableName}");
+                count += result.Count();
+            }
+
+
+            var record = _context.LogRecords.First();
+            return new string[] { record.Message, record.Environment, count.ToString() };
+
         }
 
         // GET api/values/5

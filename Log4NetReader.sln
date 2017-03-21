@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log4NetReader.Api", "Log4NetReader.Api\Log4NetReader.Api.csproj", "{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D2F2A45D-7CE7-4E3D-BD74-A21C58D14C6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2F2A45D-7CE7-4E3D-BD74-A21C58D14C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2F2A45D-7CE7-4E3D-BD74-A21C58D14C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2F2A45D-7CE7-4E3D-BD74-A21C58D14C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2F2A45D-7CE7-4E3D-BD74-A21C58D14C6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
