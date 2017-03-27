@@ -26,5 +26,24 @@ namespace Log4NetReader.Api.Controllers
             return result.ToArray();
 
         }
+
+        // GET api/values
+        [HttpGet("GetEnvironments/{tableName}")]
+        public IEnumerable<LogTable> GetEnvironments(string tableName)
+        {
+
+            var result = _context.LogTables.FromSql<LogTable>($"SELECT DISTINCT [Environment] AS Name FROM {tableName}");
+
+            return result.ToArray();
+
+        }
+
+        // GET api/values
+        [HttpGet("GetLevels/{tableName}")]
+        public IEnumerable<LogTable> GetLevels(string tableName)
+        {
+            var result = _context.LogTables.FromSql<LogTable>($"SELECT DISTINCT [Level] AS Name FROM {tableName}");
+            return result.ToArray();
+        }
     }
 }

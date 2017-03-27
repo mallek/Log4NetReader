@@ -17,16 +17,20 @@ namespace Log4NetReader.Api.Controllers
             _context = context;
         }
 
-        // GET api/values
+        // GET api/Log
         [HttpGet]
         public IEnumerable<LogRecord> Get(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"SELECT TOP {take} * FROM {tableName} WHERE ID not in (SELECT TOP({take * skip}) ID From {tableName} ORDER BY ID {sort})");
+            StringBuilder sb = new StringBuilder();            
+            sb.Append($"SELECT TOP {take} *");          
+
+            sb.Append($"FROM {tableName} WHERE ID not in (SELECT TOP({take * skip}) ID From {tableName} ORDER BY ID {sort})");
             // WHERE Id not in (SELECT TOP(100 * 100) Id FROM DealertrackSync_Log ORDER BY ID DESC)
 
             if (level.ToUpperInvariant() != "ALL")
-                sb.Append($"AND Level = '{level}' ");
+            {
+                sb.Append(LevelFactory(level));
+            }
 
             if (environment.ToUpperInvariant() != "ALL")
                 sb.Append($"AND Environment = '{environment}' ");
@@ -38,5 +42,53 @@ namespace Log4NetReader.Api.Controllers
             return result.ToArray();
 
         }
+
+        // GET api/log/count
+        [HttpGet("Count")]
+        public int Count(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT Count(1) AS Total ");           
+
+            sb.Append($"FROM {tableName} WHERE (1=1)");
+
+            if (level.ToUpperInvariant() != "ALL")
+            {
+                sb.Append(LevelFactory(level));
+            }
+
+            if (environment.ToUpperInvariant() != "ALL")
+                sb.Append($"AND Environment = '{environment}' ");
+
+
+            LogCount result = _context.LogCount.FromSql<LogCount>(sb.ToString()).FirstOrDefault();
+
+            return result.Total;
+
+        }
+
+        private string LevelFactory(string level)
+        {
+            switch (level.ToLowerInvariant())
+            {
+                case "all":
+                    return "";
+                case "debug":
+                    return "AND (LEVEL = 'Debug' OR LEVEL = 'Info' OR LEVEL = 'Warn' OR  LEVEL= 'Error' OR LEVEL = 'Fatal')";
+                case "info":
+                    return "AND (LEVEL = 'Info' OR LEVEL = 'Warn' OR  LEVEL= 'Error' OR LEVEL = 'Fatal')";
+                case "warn":
+                    return "AND (LEVEL = 'Warn' OR  LEVEL= 'Error' OR LEVEL = 'Fatal')";
+                case "error":
+                    return "AND (LEVEL= 'Error' OR LEVEL = 'Fatal')";
+                case "fatal":
+                    return "AND (LEVEL = 'Fatal')";
+                default:
+                    return "AND (Level = 'Seed')";
+
+            }
+        }
+
+
     }
 }

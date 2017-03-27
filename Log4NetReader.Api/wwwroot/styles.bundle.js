@@ -1,6 +1,6 @@
 webpackJsonp([2,4],{
 
-/***/ 184:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -50,7 +50,7 @@ exports = module.exports = __webpack_require__(34)();
 exports.i(__webpack_require__(286), "");
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.spacer {\n    -webkit-box-flex: 1;\n    -ms-flex: 1 1 auto;\n    flex: 1 1 auto;\n}\n\nbody {\n    padding: 2em 15em;\n    background-color: lightgray;\n}\n\n#page-padding {\n    padding: 0 1.5em 1.5em 1.5em;\n}\n\nlabel {\n    font-weight:bold;\n    margin:1.5em 0;\n    display:block;\n}\n\n.red-color {\n    color:red;\n}\n\n.md-slider-horizontal {\n    width:100%;\n}\n\n.mat-select-value-text {\n    color: white;\n    min-width: 5em;\n}\n\n.mat-select-placeholder, .mat-floating-placeholder {\n color: white;\n}", ""]);
 
 // exports
 
@@ -313,7 +313,7 @@ function updateLink(linkElement, obj) {
 /***/ 339:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(184);
+module.exports = __webpack_require__(185);
 
 
 /***/ }),

@@ -12,11 +12,14 @@ namespace Log4NetReader.Api.Data
 
         public DbSet<LogRecord> LogRecords { get; set; }
         public DbSet<LogTable> LogTables { get; set; }
+        public DbSet<LogCount> LogCount { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LogRecord>().ToTable("SeedTable_do_not_delete_Log");
             modelBuilder.Entity<LogTable>().HasKey("Name");
+            modelBuilder.Entity<LogCount>().HasKey("Total");
+
         }
     }
 }

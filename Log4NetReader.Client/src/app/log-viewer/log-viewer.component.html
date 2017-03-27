@@ -2,10 +2,45 @@
   <span>LogViewer {{selectedLog}}</span>
 
   <span class="spacer"></span>
- <md-select placeholder="Select Log" [ngModel]="selectedLog" (ngModelChange)="onChange($event)">
-      <md-option *ngFor="let logs of logsTables" [value]="logs.name">
-        {{ logs.name }}
-      </md-option>
-</md-select>
+  <md-select placeholder="Log" [ngModel]="selectedLog" (ngModelChange)="onChangeLog($event)">
+    <md-option *ngFor="let logs of logsTables" [value]="logs.name">
+      {{ logs.name }}
+    </md-option>
+  </md-select>
+  <md-select placeholder="Environment" [ngModel]="selectedEnvironment" (ngModelChange)="onChangeEnvironment($event)">
+    <md-option *ngFor="let environment of logEnvironments" [value]="environment.name">
+      {{ environment.name }}
+    </md-option>
+  </md-select>
+  <md-select placeholder="Logging Level" [ngModel]="selectedLevel" (ngModelChange)="onChangeLevel($event)">
+    <md-option *ngFor="let level of logLevels" [value]="level.name">
+      {{ level.name }}
+    </md-option>
+  </md-select>
 
 </md-toolbar>
+<md-card *ngFor="let log of logEntrys; let i = index">
+  <md-card-content>
+    <h3>{{ log.logger }}</h3>
+    <p>{{ log.message }}</p>
+    <p>{{ log.exception }}</p>
+
+  </md-card-content>
+  <md-card-actions>
+    <button md-button>
+            <i class="material-icons">today</i> {{log.date | date: 'short' }}
+        </button>
+    <button md-button>
+            <i class="material-icons">developer_mode</i> {{log.level}}
+        </button>
+    <button md-button>
+            <i class="material-icons">computer</i> {{log.environment}}
+        </button>
+  </md-card-actions>
+</md-card>
+
+<md-card *ngIf="logEntrys?.length == 0">
+  <md-card-content>
+    <h3>No log entries for these filters</h3>
+  </md-card-content>
+</md-card>
