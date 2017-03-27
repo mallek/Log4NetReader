@@ -9,13 +9,13 @@
 }
 
 body {
-    padding: 2em 15em;
+    /*padding: 2em 15em;*/
     background-color: lightgray;
 }
 
-#page-padding {
+/*#page-padding {
     padding: 0 1.5em 1.5em 1.5em;
-}
+}*/
 
 label {
     font-weight:bold;
