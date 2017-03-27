@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { LogViewerComponent } from './log-viewer/log-viewer.component';
+import { AlertModule } from 'ng2-bootstrap';
+import { PaginationModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { LogViewerComponent } from './log-viewer/log-viewer.component';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    AlertModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

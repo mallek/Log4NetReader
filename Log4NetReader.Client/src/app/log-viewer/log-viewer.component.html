@@ -2,6 +2,7 @@
   <span>LogViewer {{selectedLog}}</span>
 
   <span class="spacer"></span>
+
   <md-select placeholder="Log" [ngModel]="selectedLog" (ngModelChange)="onChangeLog($event)">
     <md-option *ngFor="let logs of logsTables" [value]="logs.name">
       {{ logs.name }}
@@ -19,6 +20,7 @@
   </md-select>
 
 </md-toolbar>
+<pagination [totalItems]="totalRecords" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
 <md-card *ngFor="let log of logEntrys; let i = index">
   <md-card-content>
     <h3>{{ log.logger }}</h3>
@@ -44,3 +46,4 @@
     <h3>No log entries for these filters</h3>
   </md-card-content>
 </md-card>
+

@@ -16,11 +16,11 @@ export class LogViewerComponent implements OnInit {
   logLevels: Array<any> = [{ name: 'Debug' }, { name: 'Info' }, { name: 'Warn' }, { name: 'Error' }, { name: 'Fatal' }];
 
   selectedLog: string = 'SeedTable_do_not_delete_Log';
-  selectedEnvironment: string = 'seed';
+  selectedEnvironment: string = 'all';
   selectedSort: string = 'desc';
-  selectedLevel: string = 'debug';
+  selectedLevel: string = 'all';
   totalRecords: number = 0;
-  skip: number = 0;
+  skip: number = 1;
   take: number = 10;
   _http: Http;
 
@@ -42,6 +42,17 @@ export class LogViewerComponent implements OnInit {
       .subscribe(res => this.logEntrys = res);
   }
 
+  public setPage(pageNo: number): void {
+    this.skip = pageNo;
+  }
+
+  public pageChanged(event: any): void {
+    console.log('Page changed to: ' + event.page);
+    console.log('Number items per page: ' + event.itemsPerPage);
+    this.skip = event.page;
+    this.loadLogData();
+  }
+
   onChangeLog(newValue) {
     console.log(newValue);
     this.selectedLog = newValue;
@@ -61,6 +72,7 @@ export class LogViewerComponent implements OnInit {
   }
 
   loadLogData() {
+    console.log('Loading Log data' + this.getUrl())
     this.loadLogCount();
 
     this._http.get(this.getUrl())
@@ -75,11 +87,11 @@ export class LogViewerComponent implements OnInit {
   }
 
   getUrl() {
-    return environment.apiUrl + '/api/Log/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + this.skip + '&take=' + this.take
+    return environment.apiUrl + '/api/Log/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + (this.skip -1) + '&take=' + this.take
   }
 
   getCount() {
-    return environment.apiUrl + '/api/Log/Count/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + this.skip + '&take=' + this.take
+    return environment.apiUrl + '/api/Log/Count/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + (this.skip -1) + '&take=' + this.take
   }
 
   loadEnvironments() {

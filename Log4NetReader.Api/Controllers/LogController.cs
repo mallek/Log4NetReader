@@ -21,11 +21,11 @@ namespace Log4NetReader.Api.Controllers
         [HttpGet]
         public IEnumerable<LogRecord> Get(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
         {
-            StringBuilder sb = new StringBuilder();            
-            sb.Append($"SELECT TOP {take} *");          
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"SELECT TOP {take} * ");
 
-            sb.Append($"FROM {tableName} WHERE ID not in (SELECT TOP({take * skip}) ID From {tableName} ORDER BY ID {sort})");
-            // WHERE Id not in (SELECT TOP(100 * 100) Id FROM DealertrackSync_Log ORDER BY ID DESC)
+            sb.Append($"FROM {tableName} WHERE ID not in (SELECT TOP({take * skip}) ID From {tableName} WHERE (1=1) {LevelFactory(level)} {EnvironmentFactory(environment)} ORDER BY ID {sort})");
+
 
             if (level.ToUpperInvariant() != "ALL")
             {
@@ -33,7 +33,9 @@ namespace Log4NetReader.Api.Controllers
             }
 
             if (environment.ToUpperInvariant() != "ALL")
+            {
                 sb.Append($"AND Environment = '{environment}' ");
+            }
 
             sb.Append($"ORDER BY ID {sort}");
 
@@ -48,7 +50,7 @@ namespace Log4NetReader.Api.Controllers
         public int Count(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT Count(1) AS Total ");           
+            sb.Append("SELECT Count(1) AS Total ");
 
             sb.Append($"FROM {tableName} WHERE (1=1)");
 
@@ -58,13 +60,26 @@ namespace Log4NetReader.Api.Controllers
             }
 
             if (environment.ToUpperInvariant() != "ALL")
+            {
                 sb.Append($"AND Environment = '{environment}' ");
-
+            }
 
             LogCount result = _context.LogCount.FromSql<LogCount>(sb.ToString()).FirstOrDefault();
 
             return result.Total;
 
+        }
+
+        private string EnvironmentFactory(string environment)
+        {
+            if(environment.ToUpperInvariant() == "ALL")
+            {
+                return "";
+            }
+            else
+            {
+                return $"AND Environment = '{environment}'";
+            }
         }
 
         private string LevelFactory(string level)
