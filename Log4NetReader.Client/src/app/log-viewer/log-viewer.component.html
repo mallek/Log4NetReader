@@ -3,17 +3,17 @@
 
   <span class="spacer"></span>
 
-  <md-select placeholder="Log" [ngModel]="selectedLog" (ngModelChange)="onChangeLog($event)">
+  <md-select placeholder="Log" [ngModel]="selectedLog" (ngModelChange)="onChangeLog($event)" style="padding:10px; padding-top:35px; width:250px;">
     <md-option *ngFor="let logs of logsTables" [value]="logs.name">
       {{ logs.name }}
     </md-option>
   </md-select>
-  <md-select placeholder="Environment" [ngModel]="selectedEnvironment" (ngModelChange)="onChangeEnvironment($event)">
+  <md-select placeholder="Environment" [ngModel]="selectedEnvironment" (ngModelChange)="onChangeEnvironment($event)" style="padding:10px; padding-top:35px;">
     <md-option *ngFor="let environment of logEnvironments" [value]="environment.name">
       {{ environment.name }}
     </md-option>
   </md-select>
-  <md-select placeholder="Logging Level" [ngModel]="selectedLevel" (ngModelChange)="onChangeLevel($event)">
+  <md-select placeholder="Logging Level" [ngModel]="selectedLevel" (ngModelChange)="onChangeLevel($event)" style="padding:10px; padding-top:35px;">
     <md-option *ngFor="let level of logLevels" [value]="level.name">
       {{ level.name }}
     </md-option>
