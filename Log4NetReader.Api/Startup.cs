@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
+using System.IO;
 
 namespace Log4NetReader.Api
 {
@@ -40,7 +40,26 @@ namespace Log4NetReader.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.Use(async (c, next) =>
+            {
+                await next();
+
+                if (c.Response.StatusCode == 404 &&
+                    !Path.HasExtension(c.Request.Path.Value) &&
+                    !c.Request.Path.Value.StartsWith("/api/"))
+                {
+                    c.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
             app.UseMvc();
+            app.UseStaticFiles();
 
            // DbInitializer.Initialize(context);
         }

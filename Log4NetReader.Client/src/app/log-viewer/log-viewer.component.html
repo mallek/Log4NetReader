@@ -1,0 +1,11 @@
+<md-toolbar color="primary">
+  <span>LogViewer {{selectedLog}}</span>
+
+  <span class="spacer"></span>
+ <md-select placeholder="Select Log" [ngModel]="selectedLog" (ngModelChange)="onChange($event)">
+      <md-option *ngFor="let logs of logsTables" [value]="logs.name">
+        {{ logs.name }}
+      </md-option>
+</md-select>
+
+</md-toolbar>

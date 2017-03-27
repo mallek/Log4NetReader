@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log4NetReader.Api", "Log4NetReader.Api\Log4NetReader.Api.csproj", "{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Log4NetReader.Client", "Log4NetReader.Client\Log4NetReader.Client.csproj", "{1D0B7912-94CB-42BD-A065-D9123D191F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D738D4B-9D07-4D8F-9142-9DFB12C5746F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D0B7912-94CB-42BD-A065-D9123D191F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D0B7912-94CB-42BD-A065-D9123D191F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D0B7912-94CB-42BD-A065-D9123D191F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D0B7912-94CB-42BD-A065-D9123D191F17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
