@@ -39,6 +39,26 @@ label {
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.orange600 { color: #FB8C00; }
 
+.material-icons.danger { color: #ff4444; }
+.material-icons.danger-dark { color: #cc0000; }
+
+.material-icons.warning { color: #ffbb33; }
+.material-icons.warning-dark { color: #ff8800; }
+
+.material-icons.success { color: #00c851; }
+.material-icons.success-dark { color: #007e33; }
+
+.material-icons.info { color: #33b5e5; }
+.material-icons.info-dark { color: #0099cc; }
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
 
 
 

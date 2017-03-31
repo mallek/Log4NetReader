@@ -1,13 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 
 @Component({
   selector: 'app-log-viewer',
   templateUrl: './log-viewer.component.html',
-  styleUrls: ['./log-viewer.component.css']
+  styleUrls: ['./log-viewer.component.css'],
+  animations: [
+    trigger(
+      'leaveAnimation', [
+        transition(':leave', [
+          style({ opacity: 1 }),
+          animate('100ms', style({ opacity: 0 })),
+          style({ height: '*' }),
+          animate(200, style({ height: 0 }))
+        ])
+      ]
+    )
+  ]
+
 })
+
 export class LogViewerComponent implements OnInit {
 
   logsTables: Array<any>;
@@ -22,8 +37,10 @@ export class LogViewerComponent implements OnInit {
   showExceptions: boolean = false;
   totalRecords: number = 0;
   skip: number = 1;
-  take: number = 10;
+  take: number = 15;
   _http: Http;
+
+
 
   constructor(private http: Http) {
     this._http = http;
@@ -82,7 +99,7 @@ export class LogViewerComponent implements OnInit {
   }
 
   getUrl() {
-    return environment.apiUrl + '/api/Log/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + (this.skip -1) + '&take=' + this.take
+    return environment.apiUrl + '/api/Log/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + (this.skip - 1) + '&take=' + this.take
   }
 
   getCount() {

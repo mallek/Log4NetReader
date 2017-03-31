@@ -21,28 +21,35 @@
   </md-select>
 
 </md-toolbar>
-<div class="paginationHolder">
-  <pagination [totalItems]="totalRecords" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
-
+<div class="paginationHolder text-center">
+  <pagination class="pagination-sm no-margin" [maxSize]="15" [rotate]="false" [boundaryLinks]="true" [totalItems]="totalRecords" [itemsPerPage]="take" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
+  <pre *ngIf="take*skip<totalRecords">Records {{take*(skip-1)+1}} to {{take*skip}} / {{totalRecords}}  </pre>
+  <pre *ngIf="take*skip>totalRecords">Records {{take*(skip-1)+1}} to {{totalRecords}} / {{totalRecords}}  </pre>
 </div>
 <md-card *ngFor="let log of logEntrys; let i = index">
 
   <md-card-title style="font-size: 16px;">{{ log.logger }}</md-card-title>
+
   <md-card-subtitle>{{ log.message }}</md-card-subtitle>
-  <p style="line-height: 0; vertical-align: middle; display: inline-flex;">
+  <p style="line-height: 0; vertical-align: middle; display: inline-flex;" [ngSwitch]="log.level">
     <i class="material-icons md-18 inline-icon-first">today</i> {{log.date | date: 'short' }}
 
-    <i class="material-icons md-18 inline-icon">developer_mode</i> {{log.level}}
+    <i class="material-icons md-18 inline-icon danger" *ngSwitchCase="'FATAL'">pan_tool</i>
+    <i class="material-icons md-18 inline-icon danger" *ngSwitchCase="'ERROR'">error</i>
+    <i class="material-icons md-18 inline-icon warning" *ngSwitchCase="'WARN'">warning</i>
+    <i class="material-icons md-18 inline-icon info" *ngSwitchCase="'INFO'">info</i>
+    <i class="material-icons md-18 inline-icon success" *ngSwitchCase="'DEBUG'">bug_report</i>
 
-    <i class="material-icons md-18 inline-icon">computer</i> {{log.environment}}
+    {{log.level}}
+
   </p>
   <md-card-content>
-    <p style="font-size: 10px;" *ngIf="showExceptions">{{ log.exception }}</p>
+    <p [@leaveAnimation] style="font-size: 10px;" *ngIf="showExceptions">{{ log.exception }}</p>
   </md-card-content>
 
 </md-card>
 
-<md-card *ngIf="logEntrys?.length == 0">
+<md-card [@leaveAnimation] *ngIf="logEntrys?.length == 0">
   <md-card-content>
     <h3>No log entries for these filters</h3>
   </md-card-content>
