@@ -30,6 +30,7 @@ namespace Log4NetReader.Api
             // Add framework services.
             services.AddDbContext<Log4NetReaderContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddCors();
 
             services.AddMvc();
         }
@@ -44,6 +45,9 @@ namespace Log4NetReader.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder =>
+            builder.WithOrigins("http://localhost:4200"));
 
             app.Use(async (c, next) =>
             {

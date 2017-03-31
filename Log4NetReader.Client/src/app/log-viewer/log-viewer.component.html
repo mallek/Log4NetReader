@@ -24,7 +24,7 @@
 <div class="paginationHolder text-center">
   <pagination class="pagination-sm no-margin" [maxSize]="15" [rotate]="false" [boundaryLinks]="true" [totalItems]="totalRecords" [itemsPerPage]="take" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
   <pre *ngIf="take*skip<totalRecords">Records {{take*(skip-1)+1}} to {{take*skip}} / {{totalRecords}}  </pre>
-  <pre *ngIf="take*skip>totalRecords">Records {{take*(skip-1)+1}} to {{totalRecords}} / {{totalRecords}}  </pre>
+  <pre *ngIf="take*skip>=totalRecords">Records {{take*(skip-1)+1}} to {{totalRecords}} / {{totalRecords}}  </pre>
 </div>
 <md-card *ngFor="let log of logEntrys; let i = index">
 

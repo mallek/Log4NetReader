@@ -30,7 +30,7 @@ export class LogViewerComponent implements OnInit {
   logEntrys: Array<any>;
   logLevels: Array<any> = [{ name: 'Debug' }, { name: 'Info' }, { name: 'Warn' }, { name: 'Error' }, { name: 'Fatal' }];
 
-  selectedLog: string = 'DataFeeds_Log';
+  selectedLog: string = 'SeedTable_do_not_delete_Log';
   selectedEnvironment: string = 'Release';
   selectedSort: string = 'desc';
   selectedLevel: string = 'Info';
