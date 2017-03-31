@@ -1,13 +1,14 @@
 <md-toolbar color="primary">
-  <span>LogViewer {{selectedLog}}</span>
-
-  <span class="spacer"></span>
 
   <md-select placeholder="Log" [ngModel]="selectedLog" (ngModelChange)="onChangeLog($event)" style="padding:10px; padding-top:35px; width:250px;">
     <md-option *ngFor="let logs of logsTables" [value]="logs.name">
       {{ logs.name }}
     </md-option>
   </md-select>
+
+  <span class="spacer"></span>
+  <md-checkbox [(ngModel)]="showExceptions">Exceptions</md-checkbox>
+  <span class="spacer"></span>
   <md-select placeholder="Environment" [ngModel]="selectedEnvironment" (ngModelChange)="onChangeEnvironment($event)" style="padding:10px; padding-top:35px;">
     <md-option *ngFor="let environment of logEnvironments" [value]="environment.name">
       {{ environment.name }}
@@ -20,25 +21,25 @@
   </md-select>
 
 </md-toolbar>
-<pagination [totalItems]="totalRecords" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
-<md-card *ngFor="let log of logEntrys; let i = index">
-  <md-card-content>
-    <h3>{{ log.logger }}</h3>
-    <p>{{ log.message }}</p>
-    <p>{{ log.exception }}</p>
+<div class="paginationHolder">
+  <pagination [totalItems]="totalRecords" [(ngModel)]="skip" (pageChanged)="pageChanged($event)"></pagination>
 
+</div>
+<md-card *ngFor="let log of logEntrys; let i = index">
+
+  <md-card-title style="font-size: 16px;">{{ log.logger }}</md-card-title>
+  <md-card-subtitle>{{ log.message }}</md-card-subtitle>
+  <p style="line-height: 0; vertical-align: middle; display: inline-flex;">
+    <i class="material-icons md-18 inline-icon-first">today</i> {{log.date | date: 'short' }}
+
+    <i class="material-icons md-18 inline-icon">developer_mode</i> {{log.level}}
+
+    <i class="material-icons md-18 inline-icon">computer</i> {{log.environment}}
+  </p>
+  <md-card-content>
+    <p style="font-size: 10px;" *ngIf="showExceptions">{{ log.exception }}</p>
   </md-card-content>
-  <md-card-actions>
-    <button md-button>
-            <i class="material-icons">today</i> {{log.date | date: 'short' }}
-        </button>
-    <button md-button>
-            <i class="material-icons">developer_mode</i> {{log.level}}
-        </button>
-    <button md-button>
-            <i class="material-icons">computer</i> {{log.environment}}
-        </button>
-  </md-card-actions>
+
 </md-card>
 
 <md-card *ngIf="logEntrys?.length == 0">
@@ -46,4 +47,3 @@
     <h3>No log entries for these filters</h3>
   </md-card-content>
 </md-card>
-

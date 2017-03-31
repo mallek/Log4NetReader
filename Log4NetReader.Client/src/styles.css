@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
 
 .spacer {
     -webkit-box-flex: 1;
@@ -23,10 +23,6 @@ label {
     display:block;
 }
 
-.red-color {
-    color:red;
-}
-
 .md-slider-horizontal {
     width:100%;
 }
@@ -39,4 +35,11 @@ label {
 .mat-select-placeholder, .mat-floating-placeholder {
  color: white;
 }
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.orange600 { color: #FB8C00; }
+
+
+
+
 

@@ -15,10 +15,11 @@ export class LogViewerComponent implements OnInit {
   logEntrys: Array<any>;
   logLevels: Array<any> = [{ name: 'Debug' }, { name: 'Info' }, { name: 'Warn' }, { name: 'Error' }, { name: 'Fatal' }];
 
-  selectedLog: string = 'SeedTable_do_not_delete_Log';
-  selectedEnvironment: string = 'all';
+  selectedLog: string = 'DataFeeds_Log';
+  selectedEnvironment: string = 'Release';
   selectedSort: string = 'desc';
-  selectedLevel: string = 'all';
+  selectedLevel: string = 'Info';
+  showExceptions: boolean = false;
   totalRecords: number = 0;
   skip: number = 1;
   take: number = 10;
@@ -33,13 +34,7 @@ export class LogViewerComponent implements OnInit {
 
     this.loadEnvironments();
 
-    http.get(this.getUrl())
-      .map(response => response.json())
-      .subscribe(res => this.logEntrys = res);
-
-    http.get(this.getUrl())
-      .map(response => response.json())
-      .subscribe(res => this.logEntrys = res);
+    this.loadLogData();
   }
 
   public setPage(pageNo: number): void {
@@ -91,7 +86,7 @@ export class LogViewerComponent implements OnInit {
   }
 
   getCount() {
-    return environment.apiUrl + '/api/Log/Count/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment + '&sort=' + this.selectedSort + '&skip=' + (this.skip -1) + '&take=' + this.take
+    return environment.apiUrl + '/api/Log/Count/?tableName=' + this.selectedLog + '&level=' + this.selectedLevel + '&environment=' + this.selectedEnvironment
   }
 
   loadEnvironments() {

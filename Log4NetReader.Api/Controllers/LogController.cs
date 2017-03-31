@@ -2,6 +2,7 @@
 using Log4NetReader.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,27 +20,12 @@ namespace Log4NetReader.Api.Controllers
 
         // GET api/Log
         [HttpGet]
-        public IEnumerable<LogRecord> Get(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
+        public IEnumerable<LogRecord> Get(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100, DateTime? startDate = null, DateTime? endDate = null)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"SELECT TOP {take} * ");
+            
+            var queryString = QueryStringFactory(tableName, level, environment,  startDate, endDate);
 
-            sb.Append($"FROM {tableName} WHERE ID not in (SELECT TOP({take * skip}) ID From {tableName} WHERE (1=1) {LevelFactory(level)} {EnvironmentFactory(environment)} ORDER BY ID {sort})");
-
-
-            if (level.ToUpperInvariant() != "ALL")
-            {
-                sb.Append(LevelFactory(level));
-            }
-
-            if (environment.ToUpperInvariant() != "ALL")
-            {
-                sb.Append($"AND Environment = '{environment}' ");
-            }
-
-            sb.Append($"ORDER BY ID {sort}");
-
-            var result = _context.LogRecords.FromSql<LogRecord>(sb.ToString());
+            var result = _context.LogRecords.FromSql<LogRecord>(queryString).OrderByDescending(x => x.Id).Skip(skip*take).Take(take);
 
             return result.ToArray();
 
@@ -47,12 +33,36 @@ namespace Log4NetReader.Api.Controllers
 
         // GET api/log/count
         [HttpGet("Count")]
-        public int Count(string tableName, string level = "ALL", string environment = "ALL", string sort = "DESC", int skip = 0, int take = 100)
+        public int Count(string tableName, string level = "ALL", string environment = "ALL",  DateTime? startDate = null, DateTime? endDate = null)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT Count(1) AS Total ");
+            
+            var queryString = QueryStringFactory(tableName, level, environment,  startDate, endDate);
 
-            sb.Append($"FROM {tableName} WHERE (1=1)");
+            return _context.LogRecords.FromSql<LogRecord>(queryString).Count();            
+
+        }
+
+
+        private string QueryStringFactory(string tableName, string level = "ALL", string environment = "ALL",  DateTime? startDate = null, DateTime? endDate = null)
+        {
+            DateTime logStartDate;
+            DateTime logEndDate;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"SELECT * from {tableName} ");
+
+
+            if (!DateTime.TryParse(startDate.ToString(), out logStartDate))
+            {
+                 logStartDate = DateTime.Now.AddMonths(-1);
+            }
+
+            if (!DateTime.TryParse(endDate.ToString(), out logEndDate))
+            {
+                logEndDate = DateTime.Now.AddDays(1);
+            }
+
+            sb.Append($"WHERE [Date] BETWEEN '{logStartDate.ToString("yyyy-MM-dd")}' AND '{logEndDate.ToString("yyyy-MM-dd")}'");
 
             if (level.ToUpperInvariant() != "ALL")
             {
@@ -64,23 +74,11 @@ namespace Log4NetReader.Api.Controllers
                 sb.Append($"AND Environment = '{environment}' ");
             }
 
-            LogCount result = _context.LogCount.FromSql<LogCount>(sb.ToString()).FirstOrDefault();
+            
 
-            return result.Total;
-
+            return sb.ToString();
         }
 
-        private string EnvironmentFactory(string environment)
-        {
-            if(environment.ToUpperInvariant() == "ALL")
-            {
-                return "";
-            }
-            else
-            {
-                return $"AND Environment = '{environment}'";
-            }
-        }
 
         private string LevelFactory(string level)
         {
@@ -103,6 +101,8 @@ namespace Log4NetReader.Api.Controllers
 
             }
         }
+
+
 
 
     }
