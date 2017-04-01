@@ -8,6 +8,17 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
   title = 'Log4Net Reader version ' + environment.version;
-    currentEnv: string = environment.apiUrl;
+  currentEnv: string = environment.apiUrl;
+  logViewers: Array<any> = ['Main'];
+
+  addViewer() {
+    console.log('adding Viewer');
+    this.logViewers.push('Next');
+  }
+
+    removeViewer() {
+    console.log('Removing Viewer');
+    this.logViewers.pop();
+  }
 
 }

@@ -20,17 +20,8 @@ namespace Log4NetReader.Api.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            var count = 0;
-
-            foreach (string tableName in new[] { "CompensationModule_Log", "DataFeeds_Log" })
-            {
-                var result = _context.LogRecords.FromSql<LogRecord>($"Select top 10 * from {tableName}");
-                count += result.Count();
-            }
-
-
-            var record = _context.LogRecords.First();
-            return new string[] { record.Message, record.Environment, count.ToString() };
+            
+            return new string[] { "Values", "controller", "working" };
 
         }
 
